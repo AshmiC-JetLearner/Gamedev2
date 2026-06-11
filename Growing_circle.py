@@ -21,6 +21,15 @@ class circle:
                                             self.circle_width
                                             )
     
+    def grow(self,r):
+        self.circle_radius=self.circle_radius+r
+        self.draw_circle=pygame.draw.circle(self.circle_surface,
+                                            self.circle_color,
+                                            self.circle_pos,
+                                            self.circle_radius,
+                                            self.circle_width
+                                            )
+
 #creating objects
 circle1=circle('blue',30,(300,300),20)
 circle2=circle('red',70,(100,450),0)
@@ -35,4 +44,10 @@ while running:
             screen.fill('yellow')
             circle1.draw()
             circle2.draw()
+            pygame.display.update()
+
+
+        elif event.type==pygame.MOUSEBUTTONUP:
+            circle1.grow(5)
+            circle2.grow(7)
             pygame.display.update()
