@@ -9,7 +9,7 @@ HEIGHT=600
 
 screen=pygame.display.set_mode((WIDTH,HEIGHT))
 title=pygame.display.set_caption('Flappy bird')
-font=pygame.SysFont("Pacifico",60)
+font=pygame.font.SysFont("Pacifico",60)
 
 bg=pygame.image.load("Flappy_bird/images/Bg.png")
 ground_img=pygame.image.load("Flappy_bird/images/ground.png")
@@ -45,7 +45,8 @@ class Bird(pygame.sprite.Sprite):
                      for i in range(1,4)]
         self.index=0
         self.counter=0
-        self.image=self.images.get_rect(center=(x,y))
+        self.image=self.images[self.index]
+        self.rect=self.image.get_rect(center=(x,y))
         self.vel=0
         self.clicked=False
     
@@ -73,7 +74,18 @@ class Bird(pygame.sprite.Sprite):
             self.image=pygame.transform.rotate(self.images[self.index],-90)
 #-------------
 class pipe(pygame.sprite.Sprite):
-    pass
+    def __init__ (self,x,y,pos):
+        pygame.sprite.Sprite.__init__(self)
+        self.image= pygame.image.load('Flappy_bird/images/pipe.png')
+
+        if pos == 1: #top pipe
+            self.image= pygame.transform.flip(self.image,False,True)
+            self.rect=self.image.get_rect(bottomleft=(x,y-pipe_gap//2))
+        
+        else:
+            self.rect=self.image.get_rect(topleft=(x,y+ pipe_gap//2))
+
+
 
 class Button:
     pass
@@ -89,3 +101,48 @@ flappy=Bird(100,HEIGHT//2)
 bird_group.add(flappy)
 restart_button=Button(WIDTH//2-50, HEIGHT//2-100,restart_img)
 
+#Game loop
+clock=pygame.time.Clock()
+running=True
+
+
+
+
+
+
+
+
+
+while running:
+    clock.tick(FPS)
+    screen.blit(bg,(0,0))
+
+    if not game_over and flying:
+        time_now=pygame.time.get_ticks()
+        #-------------------------
+
+        #-------------------------
+
+
+
+    bird_group.update()
+    bird_group.draw(screen)
+    pipe_group.draw(screen)
+    draw_text(str(score),font,(255,255,255),WIDTH//2,20)
+
+    #------------CODE---------
+    
+    #-------------------------
+
+    for event in pygame.event.get():
+        if event.type == pygame.QUIT:
+            running= False
+
+        if event.type == pygame.MOUSEBUTTONDOWN and not flying and not game_over:
+            flying=True
+
+
+    pygame.display.update()
+
+
+pygame.quit()
